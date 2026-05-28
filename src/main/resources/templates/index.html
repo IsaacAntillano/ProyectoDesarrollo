@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+</head>
+<body>
+    <h1>Sistema de Gestión de Bobinados</h1>
+    <div sec:authorize="hasRole('INGENIERO')">
+        <a th:href="@{/usuarios}">Gestión de usuarios</a>
+    </div>
+   <form th:action="@{/logout}" method="post" style="display:inline;">
+    <button type="submit" style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
+        Cerrar sesión
+    </button>
+</form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Muestra "Nuevo usuario" o "Editar usuario" según si el id es null -->
+    <title th:text="${usuario.id == null ? 'Nuevo usuario' : 'Editar usuario'}"></title>
+</head>
+<body>
+    <h1 th:text="${usuario.id == null ? 'Crear usuario' : 'Editar usuario'}"></h1>
+
+    <!-- El formulario apunta a /usuarios (POST) si es nuevo, o a /usuarios/{id} (POST) si es edición -->
+    <form th:action="@{${usuario.id == null ? '/usuarios' : '/usuarios/' + usuario.id}}" method="post">
+        <label>Username: <input type="text" name="username" th:value="${usuario.username}" required/></label><br/>
+        <label>Password: <input type="password" name="password"
+               th:attr="placeholder=${usuario.id == null ? 'Contraseña' : 'Dejar vacío para no cambiar'}"/></label><br/>
+        <label>Rol:
+            <select name="rol">
+                <!-- th:each recorre la lista de roles (enviada como "roles") -->
+                <option th:each="r : ${roles}" th:value="${r.name()}"
+                        th:text="${r}"
+                        th:selected="${usuario.rol == r}"></option>
+            </select>
+        </label><br/>
+        <button type="submit">Guardar</button>
+    </form>
+    <a th:href="@{/usuarios}">Cancelar</a>
+</body>
+</html>
