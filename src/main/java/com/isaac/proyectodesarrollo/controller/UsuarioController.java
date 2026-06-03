@@ -1,5 +1,7 @@
 package com.isaac.proyectodesarrollo.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +27,18 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required = false) String search, Model model) {
+    public String listar(@RequestParam(required = false) String search,
+                         @RequestParam(required = false, defaultValue = "false") boolean mostrarTodos,
+                         Model model) {
+        List<Usuario> usuarios;
         if (search != null && !search.isEmpty()) {
-            model.addAttribute("usuarios", usuarioService.buscarPorUsername(search));
+            usuarios = usuarioService.buscarPorUsername(search);
+        } else if (mostrarTodos) {
+            usuarios = usuarioService.listarTodos();
         } else {
-            model.addAttribute("usuarios", usuarioService.listarActivos());
+            usuarios = usuarioService.listarActivos();
         }
+        model.addAttribute("usuarios", usuarios);
         return "usuarios/lista";
     }
 
@@ -69,6 +77,20 @@ public class UsuarioController {
     public String desactivar(@PathVariable Long id, RedirectAttributes redirect) {
         usuarioService.desactivar(id);
         redirect.addFlashAttribute("mensaje", "Usuario desactivado");
+        return "redirect:/usuarios";
+    }
+
+    @GetMapping("/reactivar/{id}")
+    public String reactivar(@PathVariable Long id, RedirectAttributes redirect) {
+        usuarioService.reactivar(id);
+        redirect.addFlashAttribute("mensaje", "Usuario reactivado");
+        return "redirect:/usuarios";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Long id, RedirectAttributes redirect) {
+        usuarioService.eliminar(id);
+        redirect.addFlashAttribute("mensaje", "Usuario eliminado definitivamente");
         return "redirect:/usuarios";
     }
 }

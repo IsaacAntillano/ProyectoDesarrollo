@@ -25,6 +25,10 @@ public class UsuarioService {
         return usuarioRepository.findByActivoTrue();
     }
 
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
+
     public List<Usuario> buscarPorUsername(String filtro) {
         return usuarioRepository.findByUsernameContainingIgnoreCase(filtro);
     }
@@ -45,6 +49,17 @@ public class UsuarioService {
             u.setActivo(false);
             usuarioRepository.save(u);
         });
+    }
+
+    public void reactivar(Long id) {
+        usuarioRepository.findById(id).ifPresent(u -> {
+            u.setActivo(true);
+            usuarioRepository.save(u);
+        });
+    }
+
+    public void eliminar(Long id) {
+        usuarioRepository.deleteById(id);
     }
 
     public void crearAdminSiNoExiste() {
