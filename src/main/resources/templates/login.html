@@ -1,17 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Iniciar sesión</title>
+<link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
-<body>
-    <h1>Login</h1>
-    <div th:if="${param.error}">Usuario o contraseña inválidos</div>
-    <div th:if="${param.logout}">Has cerrado sesión</div>
-    <form th:action="@{/login}" method="post">
-        <label>Usuario: <input type="text" name="username"/></label><br/>
-        <label>Contraseña: <input type="password" name="password"/></label><br/>
-        <button type="submit">Ingresar</button>
-    </form>
+
+<body class="login-body">
+
+    <div class="login-card">
+
+        <div class="logo">↯</div>
+
+        <h1>SisGestBob</h1>
+        <p class="subtitle">Sistema de Gestión de Bobinados</p>
+
+        <div th:if="${param.error}" class="message error">
+            Usuario o contraseña inválidos
+        </div>
+
+        <div th:if="${param.logout}" class="message logout">
+            Has cerrado sesión correctamente
+        </div>
+
+        <form th:action="@{/login}" method="post">
+
+            <div class="input-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" placeholder="nombre.usuario" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="primary-btn">Iniciar Sesión</button>
+
+        </form>
+
+        <div class="line"></div>
+
+        <div class="demo-title">Credenciales de demostración</div>
+
+        <div class="demo-row">
+            <span class="badge purple">Ingeniero de Planta</span>
+            <span>rvargas / ing2026</span>
+        </div>
+
+        <div class="demo-row">
+            <span class="badge blue">Supervisor</span>
+            <span>mtorres / sup2026</span>
+        </div>
+
+        <div class="demo-row">
+            <span class="badge green">Operario</span>
+            <span>lcastillo / op2026</span>
+        </div>
+
+    </div>
+
 </body>
+
 </html>
